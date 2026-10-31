@@ -1,14 +1,51 @@
 # RTU program parser
 
+Part of my portfolio: https://ilyaeis.github.io
+
+![Flow: your input, scrape nodarbibas.rtu.lv, filter time clashes, write Excel](docs/flow.svg)
+
+A study project (Riga Technical University, Data structures and algorithms, 2 authors). It finds extra lectures that fit your own timetable.
+
 ## English summary
 
 This tool finds extra lectures at Riga Technical University (RTU) that fit your own timetable. It scrapes <https://nodarbibas.rtu.lv> with Selenium, drops every lecture that clashes with your main schedule, and writes the remaining options to an Excel file.
+
+### How it works
+
+1. You set your program, course and group in `input_data` in `main.py`.
+2. Selenium opens the RTU timetable site. The tool reads your main schedule and the schedules of all other programs.
+3. It drops a lecture if it clashes with your main schedule, repeats a lecture you already have, or only fits in part (one of its weekly slots clashes).
+4. It writes the lectures that pass to `result.xlsx`. You then filter the table in Excel by week, day, time or name.
+
+### Example result
+
+From `examples/result.xlsx` (286 extra lectures, made by [`docs/make_table.py`](docs/make_table.py) with pandas, no scraping). RTU has a two-week schedule.
+
+Lectures per day:
+
+| Diena       |   Pirmā nedeļa |   Otrā nedeļa |
+|:------------|---------------:|--------------:|
+| Pirmdiena   |             14 |            13 |
+| Otrdiena    |             37 |            28 |
+| Trešdiena   |              9 |             7 |
+| Ceturtdiena |             47 |            41 |
+| Piektdiena  |             45 |            45 |
+
+First rows of the table:
+
+| Nedeļas kārta   | Diena     | Laiks         | Nosaukums                                    |   Grupu skaits |
+|:----------------|:----------|:--------------|:---------------------------------------------|---------------:|
+| Otrā nedeļa     | Pirmdiena | 16:30 - 18:05 | Banku informācijas sistēmas                  |              2 |
+| Otrā nedeļa     | Pirmdiena | 16:30 - 18:05 | Dabiskās valodas apstrāde                    |              1 |
+| Otrā nedeļa     | Pirmdiena | 16:30 - 18:05 | Datorsistēmu projektēšanas pamati            |              1 |
+| Otrā nedeļa     | Pirmdiena | 16:30 - 18:05 | Drošas datortīklu sistēmas                   |              1 |
+| Otrā nedeļa     | Pirmdiena | 16:30 - 18:05 | Elektrostaciju un apakšstaciju ekspluatācija |              2 |
 
 ### Requirements
 
 - Python 3.9+
 - Google Chrome. Selenium opens it through `webdriver.Chrome()`. Selenium 4.6+ downloads the matching driver by itself.
-- `pip install -r requirements.txt` (selenium, pandas, openpyxl)
+- `pip install -r requirements.txt` (selenium, pandas, openpyxl). `docs/make_table.py` also needs `tabulate`.
 
 ### Inputs
 
