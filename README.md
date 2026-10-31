@@ -1,3 +1,35 @@
+# RTU program parser
+
+## English summary
+
+This tool finds extra lectures at Riga Technical University (RTU) that fit your own timetable. It scrapes <https://nodarbibas.rtu.lv> with Selenium, drops every lecture that clashes with your main schedule, and writes the remaining options to an Excel file.
+
+### Requirements
+
+- Python 3.9+
+- Google Chrome. Selenium opens it through `webdriver.Chrome()`. Selenium 4.6+ downloads the matching driver by itself.
+- `pip install -r requirements.txt` (selenium, pandas, openpyxl)
+
+### Inputs
+
+Edit the `input_data` dictionary at the bottom of `main.py`: your program, course and group IDs, the range of programs to search, and the range of dates (two full weeks). The comments in the file explain how to find the IDs with the browser "inspect" tool.
+
+### Run
+
+```
+python main.py
+```
+
+The program writes `all_possible_additional_lectures.json` (intermediate data) and `result.xlsx` (final list) into the current folder. Press Enter in the terminal at the end to close the browser.
+
+### Examples
+
+`examples/` holds a sample `main_schedule.json` and a sample `result.xlsx`.
+
+---
+
+## Latvian course description
+
 # Datu strukturas un algoritmi - gala projekts
 ## Ilja Safronovs un Aleksejs Peņkovs, RDCM0, 1. kurss, 15. grupa
 ### Automatizētā papildus lekciju mēklēšana
